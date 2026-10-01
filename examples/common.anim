@@ -1,7 +1,7 @@
-# Intended draft 0.1 examples, not a claim of implementation support.
+// Intended draft 0.1 examples, not a claim of implementation support.
 namespace common
 
-# A reusable definition inherits the caller's explicit collection.
+// A reusable definition inherits the caller's explicit collection.
 slide_up
   anim pos.y from -20 time .5 easy.back-out
 
@@ -49,17 +49,17 @@ example_two_selections
   grid center
   anim scale from .2 time .3 delay index*.05 easy.back-out
   anim opacity from 0 time .2 delay index*.05
-    anim event 'avatars_visible'
+    event 'avatars_visible'
 
 example_reuse
   find 'card_*'
   anim pop
   anim fade
 
-# Extensions: the event waits for Spine, while sound starts independently.
-# Example.
+// Extensions: the event waits for Spine, while sound starts independently.
+// Example.
 example_extensions
   find type:spine
-  anim spine 'show' 0
-    anim event 'test_done'
-  anim sound 'open.window.ui'
+  spine 'show' 0
+    event 'test_done'
+  sound 'open.window.ui'

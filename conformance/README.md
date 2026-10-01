@@ -8,6 +8,7 @@ A fixture contains source, initial object identities/names/categories/properties
 
 | Scenario | Expected behavior |
 |---|---|
+| Comments | Full-line and inline // comments are ignored; quoted // stays literal; single / works in expressions and paths; # is not a comment marker |
 | Variables | Finite numeric declarations, earlier-binding defaults, immutable run values |
 | Overrides | Declared numeric overrides resolve before dependent defaults |
 | Variable errors | Duplicate/reserved/undefined names, forward references, and non-finite values fail |
@@ -33,6 +34,12 @@ A fixture contains source, initial object identities/names/categories/properties
 | Conflict | Whole-vector conflicts with components; independent X/Y do not |
 | Duration | Maximum end, not sum of lines |
 | Named call | Inherited collection; missing references/recursion fail |
+| Extension syntax | Direct event/sound/spine commands; anim-prefixed forms are errors |
+| Extension registration | Unknown commands and reserved/duplicate registrations fail before side effects |
+| Extension barrier | Synchronous and asynchronous success release children exactly once; target groups wait for all members |
+| Extension interruption | Failure, replacement, cancellation, and target loss suppress dependent actions |
+| Late completion | Duplicate callbacks and completion after cancellation never resume the chain |
+| Extension timing | Unknown duration is not zero; explicit time follows the declared barrier policy |
 
 Numerical fixture: opacity 0→1, linear easing, time=1, delay=.2. At t=0 and .2, opacity is 0; at .7 it is .5; at 1.2 it is 1. A zero-delay child activates at 1.2. Fixtures specify numeric tolerances.
 
@@ -42,7 +49,8 @@ Numerical fixture: opacity 0→1, linear easing, time=1, delay=.2. At t=0 and .2
 - Easing: reference samples, endpoints, overshoot, and cubic Bezier.
 - Seek: .1→.8→.1 gives identical poses; future children do not apply From; no events.
 - Bounce: independent X motion, sequential Y phases, squash/stretch, and no cumulative baseline drift.
-- Async: unknown duration holds Pipe; interruption cancels dependent work.
+- Async: unknown duration holds Pipe; interruption cancels dependent work; synchronous completion cannot overflow a long chain.
+- Extension seek: suppress external effects; require a pose evaluator for visual actions; report unsupported/unknown preview instead of guessing.
 
 Boundary fixtures distinguish the state before and after processing actions at time t. Do not compare arbitrary frame indices between implementations without aligned clocks and ordering rules.
 

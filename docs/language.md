@@ -4,15 +4,16 @@ This document defines intended behavior. “Must” describes a requirement for 
 
 ## 1. Files and declarations
 
-A `.anim` file is UTF-8. LF and CRLF are equivalent. Outside quoted strings, `#` starts a comment through the end of the line. Blank lines have no execution meaning.
+A `.anim` file is UTF-8. LF and CRLF are equivalent. Outside quoted strings, `//` starts a comment through the end of the line. Comments may occupy a whole line or follow an instruction. Inside a quoted string, `//` is literal text. A single `/` remains the division operator in expressions and the separator in paths. `#` is not a comment marker. Blank lines have no execution meaning.
 
 ```text
 namespace common
 let fadeTime = .25
 
 fade
+  // Select the panel before creating transitions.
   find 'panel'
-  anim opacity from 0 time fadeTime
+  anim opacity from 0 time fadeTime // Reveal the panel.
 ```
 
 A single optional `namespace` precedes declarations. Here the full name is `common.fade`; without a namespace, names are unqualified. Names are case-sensitive. Duplicate full names are errors.
@@ -104,7 +105,7 @@ phases
   find 'ball'
   anim pos.y to -160 time .4
     anim pos.y from -160 time .4
-      anim event 'landed'
+      event 'landed'
   anim pos.x to +260 time 2.4
 ```
 
@@ -162,14 +163,11 @@ Grid forms rows/columns from the collection's minimum-depth layer. Deeper member
 
 Origins: start, end, center, edges, an object name, or a path. Center is the grid's geometric center. Edges measures distance to the nearest edge. An external origin object maps to its nearest cell. Reverse after grid preserves grid indices. Grid does not sort the collection. Invalid geometry is diagnosed, not replaced by traversal indices.
 
-## 7. Events, extensions, and reuse
+## 7. Extensions and reuse
 
-Anim event 'ready' delay .1 time .2 emits one event after delay. Time defines the barrier after emission, not handler duration. Repeat is invalid for events. Events need no selection. Object-specific metrics are unavailable unless an implementation defines an explicit single-target context; count can be zero.
+Custom actions use their registered command directly, without `anim`: `event 'ready'`, `sound 'open'`, or `spine 'show' 0`. `anim` is reserved for property transitions and named animation calls. The forms `anim event`, `anim sound`, and `anim spine` are invalid; no compatibility alias is provided.
 
-Sound and Spine are extensions:
-
-- anim sound 'open': one trigger per action, not per object; time defines an explicit barrier.
-- anim spine 'show' 0: an action on selected objects. Without time, the adapter supplies completion; with time, use the explicit barrier. Interrupted is not Completed.
+Extensions are executable actions, not fire-and-forget escape hatches. They obey the same indentation, parallel activation, owner, completion barrier, and cancellation rules as transitions. Unknown commands are preparation errors. See [Extensions](extensions.md) for registration requirements, completion policies, and the example profiles for event, sound, and Spine.
 
 ```text
 namespace common
@@ -199,6 +197,6 @@ Seek is an optional capability. Evaluation begins from baseline, applies complet
 - Grid clustering, irregular layouts, nearest-cell ties, and edges definition.
 - Partial target-loss policy and scene boundaries.
 - Portable program schema and a source version marker.
-- Extension registration without name-resolution ambiguity.
+- Portable extension descriptor schema and extension version negotiation.
 
 Until these are resolved, implementations must not claim complete stable conformance.

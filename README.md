@@ -14,7 +14,7 @@ reveal_cards
   grid center
   anim scale from .2 time .3 delay index*waveDelay easy.back-out
   anim opacity from 0 time revealTime delay index*waveDelay
-    anim event 'cards_visible'
+    event 'cards_visible'
 ```
 
 Scale and opacity start together, spreading out from the center. The event runs once after **the entire opacity group**, including its per-object delays, finishes. It does not wait for scale: indentation identifies the specific predecessor.
@@ -48,7 +48,7 @@ show_title
   find 'title'
   anim opacity from 0 time .2
   anim pos.y from self-travel time .3 easy.back-out
-    anim event 'title_arrived'
+    event 'title_arrived'
 ```
 
 An omitted `to` resolves to `self`. A signed literal in `from`/`to` is relative: `from -40` means `from self-40`, while `from 40` is absolute. A variable is an ordinary expression: use `self+travel` for a relative variable value.
@@ -56,6 +56,7 @@ An omitted `to` resolves to `self`. A signed literal in `from`/`to` is relative:
 ## Documentation
 
 - [Language and execution semantics](docs/language.md)
+- [Extensions and custom action contract](docs/extensions.md)
 - [Implementation contracts and distribution](docs/runtime-and-adapters.md)
 - [Conformance requirements](conformance/README.md)
 - [Reusable examples](examples/common.anim)

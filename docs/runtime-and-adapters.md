@@ -46,6 +46,8 @@ An implementation reports its supported standard version, properties, categories
 
 Unknown asynchronous durations may be supported live: Pipe waits for actual completion. Debug displays unknown timing and restricts seeking rather than guessing.
 
+Custom commands are registered before preparation and follow the [extension action contract](extensions.md). Each activation returns an owner-bound cancellable handle with an exactly-once completion barrier and a separately tracked lifetime when needed. Callbacks after cancellation or from an earlier activation cannot resume the chain.
+
 Stop cancels the run. Reset additionally restores its baseline when requested. Restoration must not overwrite channels now owned by a different run.
 
 ## Distribution

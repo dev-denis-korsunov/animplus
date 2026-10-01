@@ -1,5 +1,5 @@
-# Independent X travel, Y jumps, squash/stretch, and three diminishing bounces.
-# Positive Y follows the adapter axis; it does not necessarily mean up.
+// Independent X travel, Y jumps, squash/stretch, and three diminishing bounces.
+// Positive Y follows the adapter axis; it does not necessarily mean up.
 namespace demo
 
 bounce
