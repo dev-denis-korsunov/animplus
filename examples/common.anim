@@ -1,0 +1,65 @@
+# Intended draft 0.1 examples, not a claim of implementation support.
+namespace common
+
+# A reusable definition inherits the caller's explicit collection.
+slide_up
+  anim pos.y from -20 time .5 easy.back-out
+
+unfurl
+  anim rot from 25 time .45 easy.back-out
+
+pop
+  anim scale from .2 time .3 easy.back-out
+
+fade
+  anim opacity from 0 time .2
+
+example_mask
+  find 'item_*'
+  anim scale from .2 delay index*.05 easy.back-out
+
+example_type
+  find type:sprite
+  ignore 'bg*'
+  anim opacity from 0 time .2 delay index*.02
+
+example_path
+  path 0/3/1
+  anim rot from 25 time .45 easy.back-out
+
+example_profile_avatars
+  find 'avatar_0*'
+  grid center
+  anim scale from .9 delay index*.03 easy.back-out
+  anim opacity from 0 delay index*.03 easy.back-out
+  anim pos.y from +40 delay index*.03 easy.back-out
+
+example_custom
+  find 'header' 0
+  find 'title' 1
+  path 0/3/1 2
+  anim opacity from 0 delay depth*.1
+
+example_two_selections
+  find 'title'
+  anim pos.y from -40 time .35 easy.back-out
+  anim opacity from 0 time .2
+
+  find 'avatar_0*'
+  grid center
+  anim scale from .2 time .3 delay index*.05 easy.back-out
+  anim opacity from 0 time .2 delay index*.05
+    anim event 'avatars_visible'
+
+example_reuse
+  find 'card_*'
+  anim pop
+  anim fade
+
+# Extensions: the event waits for Spine, while sound starts independently.
+# Example.
+example_extensions
+  find type:spine
+  anim spine 'show' 0
+    anim event 'test_done'
+  anim sound 'open.window.ui'
